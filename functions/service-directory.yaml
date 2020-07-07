@@ -1,0 +1,89 @@
+openapi: "3.0.0"
+info:
+  description: "Hello friend"
+  version: "1.0.0"
+  title: "CCE Tools"
+  contact:
+    email: "coolguy@coolplace.io"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+tags:
+- name: "cce-tools"
+  description: "Helpers built by CCE"
+  externalDocs:
+    description: "<('_')>"
+    url: "http://github.com/OlDirtyLam"
+servers:
+  - url: "https://{region}-{project_id}.cloudfunctions.net"
+    variables:
+      project_id:
+        default: ___PROJECT_ID___
+      region:
+        default: us-central1
+paths:
+  /cce-tools-getOrder:
+    post:
+      tags:
+        - "cce-tools"
+      summary: "Get multiple pieces of order data aggregated."
+      description: ""
+      operationId: "getOrder"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                orderId:
+                  type: string
+                locationId:
+                  type: string
+                env:
+                  type: string
+      parameters:
+      - in: header
+        name: X-Token
+        schema:
+          type: string
+        required: true
+
+      responses:
+        "405":
+          description: "Invalid input"
+        200:
+          description: "object containing various pieces of order information"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  oms:
+                    type: object
+                  tomApi:
+                    type: object
+  /logEvent:
+    post:
+      tags:
+        - "cce-tools"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                message:
+                  type: object
+                  properties:
+                    data:
+                      type: string
+                      format: base64
+
+      responses:
+        "200":
+          description: "Success"
+        "405":
+          description: "Invalid input"
+
